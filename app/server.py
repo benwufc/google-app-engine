@@ -8,8 +8,8 @@ from io import BytesIO
 from fastai import *
 from fastai.vision import *
 
-model_file_url = 'https://drive.google.com/a/g-mail.nsysu.edu.tw/uc?authuser=2&id=1XPL6dkcKUFXllitkF3PGgZQkxXC43Dsx&export=download'
-model_file_name = 'model'
+model_file_url = '://www.dropbox.com/s/g4hy7r49hn4xzms/stage-final.pth'
+model_file_name = 'stage-final'
 classes = ['pepsi','coca_cola']
 path = Path(__file__).parent
 
@@ -27,7 +27,7 @@ async def download_file(url, dest):
 async def setup_learner():
     await download_file(model_file_url, path/'models'/f'{model_file_name}.pth')
     data_bunch = ImageDataBunch.single_from_classes(path, classes,
-        tfms=get_transforms(), size=224).normalize(imagenet_stats)
+        ds_tfms=get_transforms(), size=224).normalize(imagenet_stats)
     learn = cnn_learner(data_bunch, models.resnet34, pretrained=False)
     learn.load(model_file_name)
     return learn
@@ -47,7 +47,7 @@ async def analyze(request):
     data = await request.form()
     img_bytes = await (data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    return JSONResponse({'result': learn.predict(img)[0]})
+    return JSONResponse({'result': str(learn.predict(img)[0])})
 
 if __name__ == '__main__':
     if 'serve' in sys.argv: uvicorn.run(app, host='0.0.0.0', port=8080)
