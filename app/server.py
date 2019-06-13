@@ -8,9 +8,9 @@ from io import BytesIO
 from fastai import *
 from fastai.vision import *
 
-export_file_url = 'https://drive.google.com/uc?export=download&id=1F08kEWPhe3OUq7w6OmNciqvXHiYwR5G4'
+export_file_url = 'https://drive.google.com/uc?export=download&id=1K7wh70qQRvP-9vMqQxpL7yQ6kiko1YMY'
 export_file_name = 'export.pkl'
-classes = ['pepsi','coca_cola']
+classes = ['pepsi','coke_cola']
 path = Path(__file__).parent
 
 app = Starlette()
